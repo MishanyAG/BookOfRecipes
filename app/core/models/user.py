@@ -26,7 +26,7 @@ class User(BaseORM):
 
     session: Mapped["UserSession"] = relationship("UserSession", back_populates="user")
 
-    
+
 class UserSession(BaseORM):
     __tablename__ = "users_session"
 
@@ -35,6 +35,8 @@ class UserSession(BaseORM):
         ForeignKey("users.user_id"), unique=True, nullable=False
     )
     expiration_at: Mapped[datetime] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        nullable=False, default=datetime.utcnow
+    )
 
     user: Mapped["User"] = relationship("User", back_populates="session")

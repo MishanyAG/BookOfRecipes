@@ -5,13 +5,11 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-import sys
-sys.path.append("D:\\REPOS\\Kursach")
-
 from app.core.config import ASYNC_DATABASE_URL
 
 from app.core.models.base import BaseORM
-from app.core.models.user import User, UserSession  # type: ignore
+from app.core.models.user import User, UserSession  # noqa: F401
+from app.core.models.recipes import Tag, Recipe, Ingredient, UserFavorite, TagRecipe, IngredientRecipe  # noqa: F401
 
 from alembic import context
 

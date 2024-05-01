@@ -1,4 +1,9 @@
-from app.core.config import SALT_SIZE, USER_SESSION_EXP, USER_SESSION_REFRESH, USER_SESSION_COOKIE_NAME
+from app.core.config import (
+    SALT_SIZE,
+    USER_SESSION_EXP,
+    USER_SESSION_REFRESH,
+    USER_SESSION_COOKIE_NAME,
+)
 import hashlib
 import base64
 import os
@@ -20,15 +25,16 @@ def hash_raw_password(raw_password: str):
 
 def verify_raw_password(raw_password: str, hashed_password: str):
     decoded = base64.b64decode(hashed_password.encode())
-    salt = decoded[: SALT_SIZE]
-    key = decoded[SALT_SIZE :]
+    salt = decoded[:SALT_SIZE]
+    key = decoded[SALT_SIZE:]
     new_key = hashlib.pbkdf2_hmac("sha256", raw_password.encode(), salt, 100000)
     return key == new_key
 
 
-
 class SessionService:
-    def __init__(self, response: Response, db_session: AsyncSession = Depends(async_db_session)):
+    def __init__(
+        self, response: Response, db_session: AsyncSession = Depends(async_db_session)
+    ):
         self._response = response
         self._db_session = db_session
 
@@ -52,9 +58,10 @@ class SessionService:
     async def delete_session(self, user_id: UUID | None):
         self._response.delete_cookie(USER_SESSION_COOKIE_NAME)
         if user_id:
-            await self._db_session.execute(delete(UserSession).where(UserSession.user_id == user_id))
+            await self._db_session.execute(
+                delete(UserSession).where(UserSession.user_id == user_id)
+            )
             await self._db_session.commit()
-
 
     async def save_session(self, user_id: UUID):
         user_session = self.create_session(user_id)
@@ -80,7 +87,6 @@ async def current_user(
     user_session_cookie: str = Cookie(None, alias=USER_SESSION_COOKIE_NAME),
     db_session: AsyncSession = Depends(async_db_session),
 ) -> User:
-    
     if user_session_cookie is None:
         raise HTTPException(401)
 

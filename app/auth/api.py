@@ -1,13 +1,18 @@
-from uuid import uuid4
+from uuid import UUID, uuid4
 
-from fastapi import APIRouter, Depends, Form, HTTPException, Response, Cookie
+from fastapi import APIRouter, Depends, Form, HTTPException, Cookie
 from pydantic import EmailStr
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import async_db_session
-from app.core.models.user import User, UserSchema, UserSession
-from app.auth.helpers import hash_raw_password, verify_raw_password, SessionService, current_user
+from app.core.models.user import User, UserSchema
+from app.auth.helpers import (
+    hash_raw_password,
+    verify_raw_password,
+    SessionService,
+    current_user,
+)
 from app.core.config import USER_SESSION_COOKIE_NAME
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
@@ -56,9 +61,8 @@ async def api_login(
     db_session: AsyncSession = Depends(async_db_session),
 ):
     user = await db_session.scalar(select(User).where(User.email == email))
-    if user is None or not verify_raw_password(
-        password, user.hashed_password
-    ):
+
+    if user is None or not verify_raw_password(password, user.hashed_password):
         raise HTTPException(401)
 
     await session_service.refresh_session(user.user_id)
@@ -70,8 +74,7 @@ async def api_login(
 async def api_logout(
     session_service: SessionService = Depends(SessionService),
     user_session_cookie: str = Cookie(None, alias=USER_SESSION_COOKIE_NAME),
-    db_session: AsyncSession = Depends(async_db_session),
 ):
     if user_session_cookie is not None:
-        user = await current_user(session_service, user_session_cookie, db_session)
-        await session_service.delete_session(user.user_id)
+        user_id, _ = user_session_cookie.split(".")
+        await session_service.delete_session(UUID(user_id))
