@@ -1,10 +1,11 @@
-from app.core.models.base import BaseSchema
-from uuid import UUID, uuid4
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey
 from datetime import date, datetime
+from uuid import UUID, uuid4
+
 from pydantic import EmailStr
-from app.core.models.base import BaseORM
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.core.models.base import BaseORM, BaseSchema
 
 
 class UserSchema(BaseSchema):
