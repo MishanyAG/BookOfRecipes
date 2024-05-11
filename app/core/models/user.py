@@ -1,11 +1,18 @@
 from datetime import date, datetime
+from enum import Enum
 from uuid import UUID, uuid4
 
 from pydantic import EmailStr
 from sqlalchemy import ForeignKey, String
+from sqlalchemy.dialects.postgresql import ENUM as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.models.base import BaseORM, BaseSchema
+
+
+class Role(Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 
 class UserSchema(BaseSchema):
@@ -24,9 +31,11 @@ class User(BaseORM):
     email: Mapped[str] = mapped_column(String(length=50), nullable=False, unique=True)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[date] = mapped_column(nullable=False, default=date.today)
+    role: Mapped[Role] = mapped_column(
+        SQLEnum(Role, name="enum_user_roles"), nullable=False, default=Role.USER
+    )
 
     session: Mapped["UserSession"] = relationship("UserSession", back_populates="user")
-
 
 class UserSession(BaseORM):
     __tablename__ = "users_session"

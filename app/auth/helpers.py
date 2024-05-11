@@ -16,7 +16,7 @@ from app.core.config import (
     USER_SESSION_REFRESH,
 )
 from app.core.database import async_db_session
-from app.core.models.user import User, UserSession
+from app.core.models.user import User, UserSession, Role
 
 
 def hash_raw_password(raw_password: str):
@@ -82,6 +82,17 @@ class SessionService:
     async def refresh_session(self, user_id: UUID):
         await self.delete_session(user_id)
         await self.save_session(user_id)
+
+
+async def current_admin(
+    session_service: SessionService = Depends(SessionService),
+    user_session_cookie: str = Cookie(None, alias=USER_SESSION_COOKIE_NAME),
+    db_session: AsyncSession = Depends(async_db_session),
+):
+    user = await current_user(session_service, user_session_cookie, db_session)
+    if user.role != Role.ADMIN:
+        raise HTTPException(403)
+    return user
 
 
 async def current_user(

@@ -1,3 +1,0 @@
-from fastapi import APIRouter
-
-recipes_router = APIRouter(prefix="/auth", tags=["auth"])

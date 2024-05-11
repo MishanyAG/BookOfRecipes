@@ -29,7 +29,7 @@ async def api_register(
     user = await db_session.scalar(select(User.user_id).where(User.email == email))
 
     if user is not None:
-        raise HTTPException(400)
+        raise HTTPException(400, "User already exists")
 
     user = User(
         user_id=uuid4(),
