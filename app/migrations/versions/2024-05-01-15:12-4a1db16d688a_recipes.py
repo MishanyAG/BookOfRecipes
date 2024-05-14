@@ -9,8 +9,8 @@ Create Date: 2024-05-01 15:12:50.707207
 from typing import Sequence, Union
 
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
 from alembic import op
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision: str = "4a1db16d688a"
@@ -27,8 +27,10 @@ def upgrade() -> None:
         sa.Column("description", sa.String(), nullable=False),
         sa.Column("action_to_cook", sa.String(), nullable=False),
         sa.Column("image_link", sa.String(), nullable=False),
-        sa.Column('ingredients', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
-        sa.Column('tags', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
+        sa.Column(
+            "ingredients", postgresql.JSONB(astext_type=sa.Text()), nullable=False
+        ),
+        sa.Column("tags", postgresql.JSONB(astext_type=sa.Text()), nullable=False),
         sa.PrimaryKeyConstraint("recipe_id"),
         sa.UniqueConstraint("name"),
     )

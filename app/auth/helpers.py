@@ -16,7 +16,7 @@ from app.core.config import (
     USER_SESSION_REFRESH,
 )
 from app.core.database import async_db_session
-from app.core.models.user import User, UserSession, Role
+from app.core.models.user import Role, User, UserSession
 
 
 def hash_raw_password(raw_password: str):

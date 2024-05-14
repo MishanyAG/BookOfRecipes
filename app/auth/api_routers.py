@@ -15,10 +15,10 @@ from app.core.config import USER_SESSION_COOKIE_NAME
 from app.core.database import async_db_session
 from app.core.models.user import User, UserSchema
 
-auth_router = APIRouter(prefix="/auth", tags=["auth"])
+api_auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@auth_router.post("/register", response_model=UserSchema)
+@api_auth_router.post("/register", response_model=UserSchema)
 async def api_register(
     session_service: SessionService = Depends(SessionService),
     email: EmailStr = Form(),
@@ -46,14 +46,14 @@ async def api_register(
     return user.to_schema()
 
 
-@auth_router.get("/info", response_model=UserSchema)
+@api_auth_router.get("/info", response_model=UserSchema)
 async def api_user_info(
     user: User = Depends(current_user),
 ):
     return user.to_schema()
 
 
-@auth_router.post("/login", response_model=UserSchema)
+@api_auth_router.post("/login", response_model=UserSchema)
 async def api_login(
     session_service: SessionService = Depends(SessionService),
     email: EmailStr = Form(),
@@ -70,7 +70,7 @@ async def api_login(
     return user.to_schema()
 
 
-@auth_router.post("/logout")
+@api_auth_router.post("/logout")
 async def api_logout(
     session_service: SessionService = Depends(SessionService),
     user_session_cookie: str = Cookie(None, alias=USER_SESSION_COOKIE_NAME),

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }}</title>
+</head>
+
+<body>
+    <div>
+        <h1>{{ recipe.name }}</h1>
+        <p>{{ recipe.description }}</p>
+        <p>Ингредиенты:</p>
+        <ul>
+            {% for ingredient_name, value in recipe.ingredients.items() %}
+            <li>{{ ingredient_name }} - {{ value }}</li>
+            {% endfor %}
+        </ul>
+        <p>Способ приготовления</p>
+        <p>{{ recipe.action_to_cook }}</p>
+    </div>
+</body>
+
+</html>

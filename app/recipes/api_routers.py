@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -19,10 +19,10 @@ from app.core.models.recipe import (
 )
 from app.core.models.user import User
 
-recipes_router = APIRouter(prefix="/recipes", tags=["recipes"])
+api_recipes_router = APIRouter(prefix="/recipes", tags=["recipes"])
 
 
-@recipes_router.post("/", response_model=RecipeSchema)
+@api_recipes_router.post("/", response_model=RecipeSchema)
 async def api_create_recipe(
     recipe_schema: CreateRecipeSchema,
     admin: User = Depends(current_admin),
@@ -57,7 +57,7 @@ async def api_create_recipe(
     return recipe.to_schema(image_link=recipe_schema.image_link)
 
 
-@recipes_router.get("/", response_model=list[RecipeSchema])
+@api_recipes_router.get("/", response_model=list[RecipeSchema])
 async def api_get_recipes(
     offset: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
@@ -84,7 +84,7 @@ async def api_get_recipes(
     return [recipe.to_schema(image_link=recipe.image.image_link) for recipe in recipes]
 
 
-@recipes_router.get("/favorites", response_model=list[RecipeSchema])
+@api_recipes_router.get("/favorites", response_model=list[RecipeSchema])
 async def api_get_favorites(
     user: User = Depends(current_user),
     db_session: AsyncSession = Depends(async_db_session),
@@ -98,7 +98,7 @@ async def api_get_favorites(
     return [recipe.to_schema(image_link=recipe.image.image_link) for recipe in recipes]
 
 
-@recipes_router.get("/{recipe_id}", response_model=RecipeSchema)
+@api_recipes_router.get("/{recipe_id}", response_model=RecipeSchema)
 async def api_get_recipe(
     recipe_id: UUID,
     db_session: AsyncSession = Depends(async_db_session),
@@ -114,7 +114,7 @@ async def api_get_recipe(
     return recipe.to_schema(image_link=recipe.image.image_link)
 
 
-@recipes_router.delete("/{recipe_id}")
+@api_recipes_router.delete("/{recipe_id}")
 async def api_delete_recipe(
     recipe_id: UUID,
     admin: User = Depends(current_admin),
@@ -127,7 +127,7 @@ async def api_delete_recipe(
     await db_session.commit()
 
 
-@recipes_router.post("/{recipe_id}/favorite")
+@api_recipes_router.post("/{recipe_id}/favorite")
 async def api_favorite_recipe(
     recipe_id: UUID,
     user: User = Depends(current_user),
@@ -142,7 +142,7 @@ async def api_favorite_recipe(
     await db_session.commit()
 
 
-@recipes_router.delete("/{recipe_id}/favorite")
+@api_recipes_router.delete("/{recipe_id}/favorite")
 async def api_unfavorite_recipe(
     recipe_id: UUID,
     user: User = Depends(current_user),

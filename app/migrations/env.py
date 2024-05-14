@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.core.config import ASYNC_DATABASE_URL
 from app.core.models.base import BaseORM
-from app.core.models.recipe import Recipe, UserFavorite, Image  # noqa: F401
+from app.core.models.recipe import Image, Recipe, UserFavorite  # noqa: F401
 from app.core.models.user import User, UserSession  # noqa: F401
 
 # this is the Alembic Config object, which provides

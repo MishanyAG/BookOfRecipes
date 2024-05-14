@@ -37,6 +37,7 @@ class User(BaseORM):
 
     session: Mapped["UserSession"] = relationship("UserSession", back_populates="user")
 
+
 class UserSession(BaseORM):
     __tablename__ = "users_session"
 

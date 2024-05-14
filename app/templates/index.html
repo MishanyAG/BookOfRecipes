@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookOfRecipes</title>
+</head>
+
+<body>
+    <div>
+        <h1>BookOfRecipes</h1>
+        <p>Here you can find a lot of recipes for your favorite dishes.</p>
+        <p>Enjoy your meal!</p>
+    </div>
+    <div>
+        <h2>Recipes</h2>
+        <ul>
+            {% for recipe in recipes %}
+            <li>
+                <a href="/recipes/{{ recipe.recipe_id }}">{{ recipe.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>
