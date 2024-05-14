@@ -1,23 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ recipe.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .recipe-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            font-size: 2em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.5em;
+            padding-top: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+        .image-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
+    <div class="recipe-container">
         <h1>{{ recipe.name }}</h1>
+        <div class="image-container">
+            <img src="https://menunedeli.ru/wp-content/uploads/2022/07/41322293-5B97-451F-886E-2522AB91F67B-1200x948.jpeg" alt="{{ recipe.name }}">
+        </div>
         <p>{{ recipe.description }}</p>
-        <p>Ингредиенты:</p>
+        <h2>Ингредиенты:</h2>
         <ul>
             {% for ingredient_name, value in recipe.ingredients.items() %}
             <li>{{ ingredient_name }} - {{ value }}</li>
             {% endfor %}
         </ul>
-        <p>Способ приготовления</p>
+        <h2>Способ приготовления</h2>
         <p>{{ recipe.action_to_cook }}</p>
     </div>
 </body>
