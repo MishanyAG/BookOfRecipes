@@ -1,28 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookOfRecipes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            transition: background-color 0.5s;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            transition: background-color 0.5s;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5em;
+            transition: color 0.5s;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.5s;
+        }
+
+        .navbar-links a:hover {
+            color: #ddd;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.5s;
+            border-radius: 10px;
+            /* Добавьте скругление углов */
+        }
+
+        .search-container:hover {
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-input {
+            padding: 10px;
+            /* Увеличьте отступ */
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            /* Добавьте тонкую границу */
+            width: 100%;
+            box-sizing: border-box;
+            transition: box-shadow 0.5s;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 10px #333;
+            outline: none;
+            /* Удалите стандартный контур */
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.5s;
+            margin-bottom: 600px;
+        }
+
+        .content:hover {
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #333;
+            font-size: 2em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            transition: color 0.5s;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            transition: color 0.5s;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.5s;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.5s;
+        }
+
+        a:hover {
+            color: #666;
+        }
+
+        .search-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-inputs input {
+            flex: 1;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .ingredients-filter,
+        .tags-filter {
+            display: flex;
+            width: 49%;
+            flex-direction: column;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .ingredients-filter:last-child,
+        .tags-filter:last-child {
+            margin-right: 0;
+        }
+
+        .ingredients-filter input,
+        .tags-filter input {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            transition: box-shadow 0.5s;
+        }
+
+        .ingredients-filter input:focus,
+        .tags-filter input:focus {
+            box-shadow: 0 0 10px #333;
+            outline: none;
+        }
+
+        .add-filter {
+            position: absolute;
+            right: 10px;
+            top: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .filter-container div {
+            display: flex;
+            gap: 5px;
+        }
+
+        .filter-container div span {
+            cursor: pointer;
+        }
+
+        .search-inputs button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+
+        .search-inputs button:hover {
+            background-color: #666;
+        }
+
+        .recipe-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .recipe-card {
+            flex: 0 0 calc(33.33% - 20px);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.5s;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+
+        .recipe-card:hover {
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100px;
+            padding: 10px;
+        }
+
+        .recipe-card h3 {
+            margin: 0;
+            padding: 5px 0;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .recipe-card p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
+    <div class="navbar">
         <h1>BookOfRecipes</h1>
+        <div class="navbar-links">
+            <a href="/user">Профиль</a>
+            <a href="/favorites">Любимые рецепты</a>
+        </div>
+    </div>
+    <div class="search-container">
+        <div class="search-inputs">
+            <input class="search-input" type="text" placeholder="Поиск...">
+            <button type="submit">Поиск</button>
+        </div>
+        <div class="filter-container">
+            <div class="ingredients-filter">
+                <input type="text" placeholder="Ингредиенты...">
+                <span class="add-filter">➕</span>
+            </div>
+            <div class="tags-filter">
+                <input type="text" placeholder="Теги...">
+                <span class="add-filter">➕</span>
+            </div>
+        </div>
+    </div>
+    <div class="content">
         <p>Here you can find a lot of recipes for your favorite dishes.</p>
         <p>Enjoy your meal!</p>
-    </div>
-    <div>
-        <h2>Recipes</h2>
-        <ul>
+        <h2>Рецепты</h2>
+        <div class="recipe-cards">
             {% for recipe in recipes %}
-            <li>
-                <a href="/recipes/{{ recipe.recipe_id }}">{{ recipe.name }}</a>
-            </li>
+            <div class="recipe-card">
+                <a href="/recipes/{{ recipe.recipe_id }}" aria-label="{{ recipe.name }}">
+                    <img src="{{ recipe.image_link }}" alt="{{ recipe.name }}">
+                    <div class="recipe-details">
+                        <h3>{{ recipe.name }}</h3>
+                        <p>{{ recipe.description | truncate(100) }}</p>
+                    </div>
+                </a>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
     </div>
+    <footer style="background-color: #333; color: #fff; padding: 20px; text-align: center; margin-top: 20px;">
+        <p>© 2024 BookOfRecipes. Все права защищены.</p>
+    </footer>
+    <script>
+        document.querySelectorAll('.add-filter').forEach(function (addFilterButton) {
+            addFilterButton.addEventListener('click', function () {
+                var filterInput = document.createElement('input');
+                filterInput.type = 'text';
+                filterInput.placeholder = this.previousElementSibling.placeholder;
+                this.parentElement.prepend(filterInput);
+            });
+        });
+        document.querySelector('.search-inputs').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var searchQuery = document.querySelector('.search-input').value;
+            // Здесь вы можете добавить код для отправки запроса на сервер с searchQuery
+            console.log('Поиск:', searchQuery);
+        });
+    </script>
 </body>
 
 </html>
