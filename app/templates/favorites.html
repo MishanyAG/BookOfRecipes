@@ -2,36 +2,12 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', path='styles/recipe-cards.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', path='styles/search.css') }}">
-<title>BookOfRecipes</title>
+<title>Любимые рецепты</title>
 {% endblock %}
 
 {% block body %}
-
-<div class="search-container">
-    <form class="search">
-        <input type="text" placeholder="Поиск...">
-        <button type="submit">Поиск</button>
-    </form>
-    <div class="filters">
-        <div class="ingredients">
-            <div class="inputs">
-                <input type="text" placeholder="Ингредиенты...">
-                <button class="add-filter">➕</button>
-            </div>
-        </div>
-        <div class="tags">
-            <div class="inputs">
-                <input type="text" placeholder="Теги...">
-                <button class="add-filter">➕</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div>
-    <p>Здесь вы можете найти множество рецептов ваших любимых блюд.</p>
-    <p>Приятного аппетита!</p>
-    <h1>Рецепты</h1>
+<h2>Любимые рецепты</h2>
+<div class="recipes">
     <div class="recipe-cards">
         {% for recipe in recipes %}
         <div class="recipe-card">
@@ -52,6 +28,5 @@
     </div>
 </div>
 
-<script src="{{ url_for('static', path='scripts/search.js') }}"></script>
 <script src="{{ url_for('static', path='scripts/favorite.js') }}"></script>
 {% endblock %}

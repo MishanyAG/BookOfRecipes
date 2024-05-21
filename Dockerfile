@@ -19,9 +19,9 @@ COPY --from=requirements-stage /temp/requirements.txt /requirements.txt
 RUN python3 -m pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /requirements.txt
 
-COPY app /code/app
 COPY alembic.ini /code/alembic.ini
 COPY entrypoint.sh /code/entrypoint.sh
+COPY app /code/app
 RUN chmod a+x /code/entrypoint.sh
 
 WORKDIR /code

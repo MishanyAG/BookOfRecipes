@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <nav>
+        <a class="logo" href="/" style="color: white;">BookOfRecipes</a>
+        <a href="/recipes/favorites">Любимые рецепты</a>
+        {% if not user %}
+        <a class="auth" href="/auth/login">Войти</a>
+        {% else %}
+        <a class="auth" href="/auth/logout">Выйти</a>
+        {% endif %}
+    </nav>
+    <main class="content">
+        {% block body %}{% endblock %}
+    </main>
+    <footer style="background-color: #333; color: #fff; padding: 20px; text-align: center; margin-top: 20px;">
+        <p>© 2024 BookOfRecipes. Все права защищены.</p>
+    </footer>
+</body>
+
+</html>

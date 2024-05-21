@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', path='styles/auth.css') }}">
+<title>Login</title>
+{% endblock %}
+
+
+{% block body %}
+<h1>Авторизация</h1>
+<form class="auth" location="/api/v1/auth/login" method="POST">
+    <input type="text" name="email" placeholder="email">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="Login">
+</form>
+
+<p>Еще не зарегистрированы? <a href="/auth/register" style="color: #381efd;">Зарегистрироваться</a></p>
+
+<script src="{{ url_for('static', path='scripts/auth.js') }}"></script>
+
+{% endblock %}

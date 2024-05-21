@@ -2,3 +2,8 @@
 __pycache__/
 .env
 .vscode/
+*.log
+*.pyc
+*.swp
+*.swo
+*.swn

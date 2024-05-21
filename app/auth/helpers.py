@@ -124,3 +124,14 @@ async def current_user(
         await session_service.refresh_session(user.user_id)
 
     return user
+
+
+async def current_user_or_none(
+    session_service: SessionService = Depends(SessionService),
+    user_session_cookie: str = Cookie(None, alias=USER_SESSION_COOKIE_NAME),
+    db_session: AsyncSession = Depends(async_db_session),
+) -> User | None:
+    try:
+        return await current_user(session_service, user_session_cookie, db_session)
+    except HTTPException:
+        return None

@@ -13,7 +13,7 @@ class BaseORM[Schema: BaseSchema](DeclarativeBase):
     def from_schema(cls, schema: BaseModel, **additional):
         return cls(**schema.model_dump(), **additional)
 
-    def to_schema(self, schema: type[BaseModel] | None = None, **additional):
+    def to_schema(self, schema: type[BaseSchema] | None = None, **additional):
         schema = schema or self._schema
         assert schema, "Схема не определена"
 

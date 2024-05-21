@@ -21,3 +21,8 @@ USER_SESSION_EXP: int = int(os.environ.get("USER_SESSION_EXP"))  # type: ignore
 USER_SESSION_REFRESH: int = int(os.environ.get("USER_SESSION_REFRESH"))  # type: ignore
 
 SALT_SIZE: int = int(os.environ.get("SALT_SIZE"))  # type: ignore
+
+
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")  # type: ignore
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")  # type: ignore
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")  # type: ignore

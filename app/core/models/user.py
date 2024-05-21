@@ -11,8 +11,8 @@ from app.core.models.base import BaseORM, BaseSchema
 
 
 class Role(Enum):
-    ADMIN = "admin"
-    USER = "user"
+    ADMIN = "ADMIN"
+    USER = "USER"
 
 
 class UserSchema(BaseSchema):
@@ -20,6 +20,7 @@ class UserSchema(BaseSchema):
     nickname: str
     email: EmailStr
     created_at: date
+    role: Role
 
 
 class User(BaseORM):

@@ -18,6 +18,7 @@ class CreateRecipeSchema(BaseSchema):
 
 class RecipeSchema(CreateRecipeSchema):
     recipe_id: UUID
+    is_favorite: bool = False
 
 
 class Recipe(BaseORM):
